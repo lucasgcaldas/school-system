@@ -14,8 +14,8 @@ public class Student extends Window {
 
     private Button btnSubject;
     private Edit studentName;
-    private Subjects subjectWindow;
-    private int GAP = UnitsConverter.toPixels(DP + 15);
+    private Subject subjectWindow;
+    private final int GAP = UnitsConverter.toPixels(DP + 15);
 
     public Student() {
         super("", BORDER_NONE);
@@ -38,16 +38,20 @@ public class Student extends Window {
             studentName.transparentBackground = true;
             studentName.captionColor = Color.BLACK;
             studentName.setForeColor(Color.BLACK);
-            studentName.setFont(Font.getFont("Lato Regular", false,  24));
+            studentName.setFont(Font.getFont("Lato Regular", false, 24));
             add(studentName, CENTER - GAP, CENTER - GAP);
 
             Button btnName = new Button("apply");
             btnName.setFont(Font.getFont(Font.DEFAULT, false, 18));
             add(btnName, RIGHT - 1000, CENTER + 50);
 
+            btnName.addPressListener((event) -> {
+                studentName.getText();
+            });
+
             btnSubject = new Button("choose subjects");
             btnSubject.setFont(Font.getFont(Font.DEFAULT, false, 24));
-            add(btnSubject, RIGHT, BOTTOM);
+            add(btnSubject, RIGHT - 10, BOTTOM - 10);
             swapSubjects();
         } catch (Exception e) {
             MessageBox.showException(e, true);
@@ -56,7 +60,7 @@ public class Student extends Window {
 
     public void swapSubjects() {
         btnSubject.addPressListener((event) -> {
-            subjectWindow = new Subjects();
+            subjectWindow = new Subject();
             subjectWindow.popup();
         });
     }

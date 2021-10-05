@@ -58,7 +58,7 @@ public class Subject extends Window {
         add(btnSubjects, LEFT + 130, BOTTOM - 10);
 
         btnTeacher = new Button("choose teacher");
-        btnTeacher.setFont(Font.getFont(Font.DEFAULT, false, 24));
+        btnTeacher.setFont(Font.getFont(Font.DEFAULT, false, 18));
         add(btnTeacher, RIGHT - 10, BOTTOM - 10);
     }
 

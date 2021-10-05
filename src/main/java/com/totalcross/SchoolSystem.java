@@ -29,7 +29,7 @@ public class SchoolSystem extends MainWindow {
     @Override
     public void initUI() {
         btnEnter = new Button("start");
-        btnEnter.setFont(Font.getFont(Font.DEFAULT, false, 24));
+        btnEnter.setFont(Font.getFont(Font.DEFAULT, false, 18));
         add(btnEnter, CENTER, CENTER);
         swapStudents();
     }

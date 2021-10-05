@@ -17,6 +17,7 @@ public class Teacher extends Window {
     public String[] labels;
     public Edit[] edits;
     public Button btnName = new Button("apply");
+    public Button btnManager = new Button("choose manager");
     public AlignedLabelsContainer alc;
     Subject subject;
 
@@ -57,6 +58,9 @@ public class Teacher extends Window {
 
         btnName.setFont(Font.getFont(Font.DEFAULT, false, 18));
         add(btnName, LEFT + 10, BOTTOM - 10);
+
+        btnManager.setFont(Font.getFont(Font.DEFAULT, false, 18));
+        add(btnManager, RIGHT - 10, BOTTOM - 10);
     }
 
     public void onEvent(Event event) {
@@ -68,6 +72,13 @@ public class Teacher extends Window {
                     numberCode.setForeColor(Color.GREEN);
                     add(numberCode, LEFT + 385, alc.getLineY(i), FILL - gap, PREFERRED);
                 }
+            }
+        }
+
+        if (event.type == ControlEvent.PRESSED) {
+            if (event.target == btnManager) {
+                Manager managerWindow = new Manager();
+                managerWindow.popup();
             }
         }
     }

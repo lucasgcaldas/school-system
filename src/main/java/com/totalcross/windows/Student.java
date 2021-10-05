@@ -9,18 +9,20 @@ import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 import totalcross.util.UnitsConverter;
 
-import java.util.Random;
+import java.util.*;
 
 public class Student extends Window {
 
     private Button btnSubject;
     private Button btnName;
     private Edit studentName;
-    private Subject subjectWindow;
     private final int GAP = UnitsConverter.toPixels(DP + 15);
+
+    HashMap<String, String> map = new HashMap<>();
 
     public Student() {
         super("", BORDER_NONE);
+
         Settings.uiAdjustmentsBasedOnFontHeight = true;
         setBackForeColors(Color.WHITE, Color.BLACK);
 
@@ -36,7 +38,7 @@ public class Student extends Window {
 
         try {
             studentName = new Edit();
-            studentName.caption = "Student Name";
+            studentName.caption = "Student name";
             studentName.transparentBackground = true;
             studentName.captionColor = Color.BLACK;
             studentName.setForeColor(Color.BLACK);
@@ -47,30 +49,33 @@ public class Student extends Window {
             btnName.setFont(Font.getFont(Font.DEFAULT, false, 18));
             add(btnName, RIGHT - 1000, CENTER + 50);
 
-            btnSubject = new Button("choose subjects");
-            btnSubject.setFont(Font.getFont(Font.DEFAULT, false, 24));
+            btnSubject = new Button("next");
+            btnSubject.setFont(Font.getFont(Font.DEFAULT, false, 18));
             add(btnSubject, RIGHT - 10, BOTTOM - 10);
         } catch (Exception e) {
             MessageBox.showException(e, true);
         }
+
     }
 
-    public void onEvent(Event event){
+    public void onEvent(Event event) {
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnName) {
-                Label numberCode = new Label("Student " + studentName.getText() + " code number: " + generateCode());
-                numberCode.setFont(Font.getFont("Lato Regular", false, 24));
-                numberCode.setForeColor(Color.GREEN);
-                add(numberCode, CENTER, CENTER + 200);
+                map.put(studentName.getText(), generateCode());
             }
         }
 
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnSubject) {
-                subjectWindow = new Subject();
-                subjectWindow.popup();
+                System.out.println(map);
+                DescriptionStudents descriptionWindow = new DescriptionStudents(this);
+                descriptionWindow.popup();
             }
         }
+    }
+
+    public HashMap<String, String> getMap() {
+        return this.map;
     }
 
     public String generateCode() {

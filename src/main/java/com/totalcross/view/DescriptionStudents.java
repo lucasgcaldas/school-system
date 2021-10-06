@@ -1,5 +1,6 @@
-package com.totalcross.windows;
+package com.totalcross.view;
 
+import com.totalcross.model.Student;
 import totalcross.sys.Settings;
 import totalcross.ui.Bar;
 import totalcross.ui.Button;
@@ -10,14 +11,16 @@ import totalcross.ui.event.Event;
 import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 
+import java.util.HashMap;
+
 public class DescriptionStudents extends Window {
 
     private Button btnApply;
     public Label numberCode;
 
-    Student studentMap;
+    StudentView studentMap;
 
-    public DescriptionStudents(Student studentMap) {
+    public DescriptionStudents(StudentView studentMap) {
         super("", BORDER_NONE);
         this.studentMap = studentMap;
 
@@ -40,9 +43,8 @@ public class DescriptionStudents extends Window {
 
         int i = 1;
         for (String key : studentMap.getMap().keySet()) {
-            String value = studentMap.getMap().get(key);
-            System.out.println("Student " + key + " = " + value + " code");
-            numberCode = new Label("Student " + key + " = " + value + " code");
+            Student value = studentMap.getMap().get(key);
+            numberCode = new Label(value.toString());
             numberCode.setFont(Font.getFont("Lato Regular", false, 24));
             numberCode.setForeColor(Color.BLACK);
             add(numberCode, CENTER, TOP + (200 * i));
@@ -50,13 +52,17 @@ public class DescriptionStudents extends Window {
         }
     }
 
-    public void onEvent(Event event){
+    public void onEvent(Event event) {
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnApply) {
-                Subject subjectWindow = new Subject();
+                SubjectView subjectWindow = new SubjectView(this);
                 subjectWindow.popup();
             }
         }
+    }
+
+    public HashMap<String, Student> getMap() {
+        return this.studentMap.map;
     }
 
 }

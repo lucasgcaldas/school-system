@@ -1,6 +1,6 @@
 package com.totalcross;
 
-import com.totalcross.windows.Student;
+import com.totalcross.view.StudentView;
 import totalcross.sys.Settings;
 import totalcross.ui.Bar;
 import totalcross.ui.Button;
@@ -11,7 +11,7 @@ import totalcross.ui.gfx.Color;
 public class SchoolSystem extends MainWindow {
 
     private Button btnEnter;
-    private Student studentWindow;
+    private StudentView studentWindow;
 
     public SchoolSystem() {
         super("", BORDER_NONE);
@@ -36,7 +36,7 @@ public class SchoolSystem extends MainWindow {
 
     public void swapStudents() {
         btnEnter.addPressListener((event) -> {
-            studentWindow = new Student();
+            studentWindow = new StudentView();
             studentWindow.popup();
         });
     }

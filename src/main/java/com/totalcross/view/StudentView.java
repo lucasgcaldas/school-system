@@ -1,7 +1,11 @@
-package com.totalcross.windows;
+package com.totalcross.view;
 
+import com.totalcross.model.Student;
 import totalcross.sys.Settings;
-import totalcross.ui.*;
+import totalcross.ui.Bar;
+import totalcross.ui.Button;
+import totalcross.ui.Edit;
+import totalcross.ui.Window;
 import totalcross.ui.dialog.MessageBox;
 import totalcross.ui.event.ControlEvent;
 import totalcross.ui.event.Event;
@@ -9,18 +13,18 @@ import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 import totalcross.util.UnitsConverter;
 
-import java.util.*;
+import java.util.HashMap;
 
-public class Student extends Window {
+public class StudentView extends Window {
 
     private Button btnSubject;
     private Button btnName;
     private Edit studentName;
     private final int GAP = UnitsConverter.toPixels(DP + 15);
 
-    HashMap<String, String> map = new HashMap<>();
+    HashMap<String, Student> map = new HashMap<>();
 
-    public Student() {
+    public StudentView() {
         super("", BORDER_NONE);
 
         Settings.uiAdjustmentsBasedOnFontHeight = true;
@@ -55,37 +59,25 @@ public class Student extends Window {
         } catch (Exception e) {
             MessageBox.showException(e, true);
         }
-
     }
 
     public void onEvent(Event event) {
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnName) {
-                map.put(studentName.getText(), generateCode());
+                Student student = new Student(studentName.getText());
+                map.put(student.getCode(), student);
             }
         }
 
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnSubject) {
-                System.out.println(map);
                 DescriptionStudents descriptionWindow = new DescriptionStudents(this);
                 descriptionWindow.popup();
             }
         }
     }
 
-    public HashMap<String, String> getMap() {
+    public HashMap<String, Student> getMap() {
         return this.map;
     }
-
-    public String generateCode() {
-        Random random = new Random();
-        String characters = "0123456789";
-        char[] code = new char[8];
-        for (int i = 0; i < 8; i++) {
-            code[i] = characters.charAt(random.nextInt(characters.length()));
-        }
-        return new String(code);
-    }
-
 }

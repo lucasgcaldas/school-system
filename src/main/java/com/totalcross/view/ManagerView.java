@@ -1,4 +1,4 @@
-package com.totalcross.windows;
+package com.totalcross.view;
 
 import totalcross.sys.Settings;
 import totalcross.ui.*;
@@ -11,13 +11,13 @@ import totalcross.util.UnitsConverter;
 
 import java.util.Random;
 
-public class Manager extends Window {
+public class ManagerView extends Window {
 
     private final int GAP = UnitsConverter.toPixels(DP + 15);
     public Button btnName;
     public Edit managerName;
 
-    public Manager() {
+    public ManagerView() {
         super("", BORDER_NONE);
 
         Settings.uiAdjustmentsBasedOnFontHeight = true;

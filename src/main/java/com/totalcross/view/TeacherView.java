@@ -11,7 +11,6 @@ import totalcross.ui.gfx.Color;
 import totalcross.util.UnitsConverter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TeacherView extends Window {
 
@@ -22,13 +21,15 @@ public class TeacherView extends Window {
     public Button btnManager = new Button("choose manager");
     public AlignedLabelsContainer alc;
 
-    private List<Teacher> teacherList = new ArrayList<>();
+    private ArrayList<Teacher> teacherList = new ArrayList<>();
 
-    SubjectView subject;
+    SubjectView subjectView;
+    StudentView studentView;
 
-    public TeacherView(SubjectView subject) {
+    public TeacherView(SubjectView subjectView, StudentView studentView) {
         super("", BORDER_NONE);
-        this.subject = subject;
+        this.subjectView = subjectView;
+        this.studentView = studentView;
 
         Settings.uiAdjustmentsBasedOnFontHeight = true;
         setBackForeColors(Color.WHITE, Color.BLACK);
@@ -44,8 +45,8 @@ public class TeacherView extends Window {
         uiAdjustmentsBasedOnFontHeightIsSupported = false;
         setBackForeColors(0xF7F7F7, 0x000000);
 
-        labels = GetStringArray(subject.getSubjects());
-        edits = new Edit[subject.getSubjects().size()];
+        labels = GetStringArray(subjectView.getSubjects());
+        edits = new Edit[subjectView.getSubjects().size()];
         for (int i = 0; i < edits.length; i++) {
             edits[i] = new Edit();
         }
@@ -72,7 +73,7 @@ public class TeacherView extends Window {
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnApply) {
                 for (int i = 0; i < edits.length; i++) {
-                    teacherList.add(new Teacher(edits[i].getText(), subject.getSubjects().get(i)));
+                    teacherList.add(new Teacher(edits[i].getText(), subjectView.getSubjects().get(i)));
                 }
 
                 int i = 0;
@@ -88,7 +89,7 @@ public class TeacherView extends Window {
 
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnManager) {
-                ManagerView managerWindow = new ManagerView();
+                ManagerView managerWindow = new ManagerView(this.teacherList, subjectView, studentView);
                 managerWindow.popup();
             }
         }

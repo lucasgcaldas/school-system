@@ -8,11 +8,14 @@ public class Subject {
     private SubjectEnum name;
     private Teacher teacher;
     private List<Student> students = new ArrayList<>();
-    private Integer vacancies;
+    private int vacancies;
 
     public Subject(SubjectEnum name) {
         this.name = name;
         this.vacancies = name.getVacanciesNumber();
+    }
+
+    public Subject() {
     }
 
     public void setTeacher(Teacher teacher) {
@@ -36,8 +39,9 @@ public class Subject {
         vacancies--;
     }
 
-    public Integer getVacancies() {
+    public int getVacancies() {
         return vacancies;
     }
+
 }
 

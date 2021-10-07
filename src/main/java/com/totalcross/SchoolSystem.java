@@ -36,7 +36,7 @@ public class SchoolSystem extends MainWindow {
 
     public void swapStudents() {
         btnEnter.addPressListener((event) -> {
-            studentWindow = new StudentView();
+            studentWindow = new StudentView(null, null);
             studentWindow.popup();
         });
     }

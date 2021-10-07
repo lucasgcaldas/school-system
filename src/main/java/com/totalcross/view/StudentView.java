@@ -1,6 +1,7 @@
 package com.totalcross.view;
 
 import com.totalcross.model.Student;
+import com.totalcross.model.Subject;
 import totalcross.sys.Settings;
 import totalcross.ui.Bar;
 import totalcross.ui.Button;
@@ -14,18 +15,24 @@ import totalcross.ui.gfx.Color;
 import totalcross.util.UnitsConverter;
 
 import java.util.HashMap;
+import java.util.Set;
 
 public class StudentView extends Window {
 
+    private final int GAP = UnitsConverter.toPixels(DP + 15);
     private Button btnSubject;
     private Button btnName;
     private Edit studentName;
-    private final int GAP = UnitsConverter.toPixels(DP + 15);
+
+    SubjectView subjectView;
+    Set<Subject> subjectsSet;
 
     HashMap<String, Student> map = new HashMap<>();
 
-    public StudentView() {
+    public StudentView(SubjectView subjectView, Set<Subject> subjectsSet) {
         super("", BORDER_NONE);
+        this.subjectView = subjectView;
+        this.subjectsSet = subjectsSet;
 
         Settings.uiAdjustmentsBasedOnFontHeight = true;
         setBackForeColors(Color.WHITE, Color.BLACK);
@@ -66,13 +73,16 @@ public class StudentView extends Window {
             if (event.target == btnName) {
                 Student student = new Student(studentName.getText());
                 map.put(student.getCode(), student);
-            }
-        }
 
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnSubject) {
-                DescriptionStudents descriptionWindow = new DescriptionStudents(this);
-                descriptionWindow.popup();
+                if (subjectView != null) {
+                    for (String key : subjectView.getMap().keySet()) {
+                        Student value = subjectView.getMap().get(key);
+                        map.put(key, value);
+                    }
+                }
+
+                SubjectView subjectWindow = new SubjectView(this, subjectsSet);
+                subjectWindow.popup();
             }
         }
     }

@@ -1,5 +1,7 @@
 package com.totalcross.view;
 
+import com.totalcross.model.Manager;
+import com.totalcross.model.Teacher;
 import totalcross.sys.Settings;
 import totalcross.ui.*;
 import totalcross.ui.dialog.MessageBox;
@@ -9,16 +11,27 @@ import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 import totalcross.util.UnitsConverter;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class ManagerView extends Window {
 
     private final int GAP = UnitsConverter.toPixels(DP + 15);
-    public Button btnName;
+    public Button btnApply;
     public Edit managerName;
+    private Set<Manager> managerSet = new LinkedHashSet<>();
 
-    public ManagerView() {
+    ManagerControl managerControl;
+    ArrayList<Teacher> teacherView;
+    SubjectView subject;
+    StudentView studentView;
+
+    public ManagerView(ArrayList<Teacher> teacherView, SubjectView subject, StudentView studentView) {
         super("", BORDER_NONE);
+        this.teacherView = teacherView;
+        this.subject = subject;
+        this.studentView = studentView;
 
         Settings.uiAdjustmentsBasedOnFontHeight = true;
         setBackForeColors(Color.WHITE, Color.BLACK);
@@ -43,22 +56,28 @@ public class ManagerView extends Window {
             managerName.setFont(Font.getFont("Lato Regular", false, 24));
             add(managerName, CENTER - GAP, CENTER - GAP);
 
-            btnName = new Button("apply");
-            btnName.setFont(Font.getFont(Font.DEFAULT, false, 18));
-            add(btnName, RIGHT - 1000, CENTER + 50);
+            btnApply = new Button("apply");
+            btnApply.setFont(Font.getFont(Font.DEFAULT, false, 18));
+            add(btnApply, RIGHT - 1000, CENTER + 50);
 
         } catch (Exception e) {
             MessageBox.showException(e, true);
         }
     }
 
-    public void onEvent (Event event) {
+    public void onEvent(Event event) {
         if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnName) {
-                Label numberCode = new Label("Manager " + managerName.getText() + " code number is " + generateCode());
+            if (event.target == btnApply) {
+                Manager manager = new Manager(managerName.getText());
+                managerSet.add(manager);
+
+                Label numberCode = new Label(manager.toString());
                 numberCode.setFont(Font.getFont("Lato Regular", false, 24));
                 numberCode.setForeColor(Color.GREEN);
                 add(numberCode, CENTER, CENTER + 200);
+
+                managerControl = new ManagerControl(this, teacherView, subject, studentView);
+                managerControl.popup();
             }
         }
 
@@ -68,21 +87,5 @@ public class ManagerView extends Window {
 //                subjectWindow.popup();
 //            }
 //        }
-    }
-
-    public String generateCode() {
-        Random random = new Random();
-        String charNumber = "0123456789";
-        String charAlpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-        char[] codeNumber = new char[4];
-        for (int i = 0; i < 4; i++) {
-            codeNumber[i] = charNumber.charAt(random.nextInt(charNumber.length()));
-        }
-
-        char[] codeAlpha = new char[1];
-        codeAlpha[0] = charAlpha.charAt(random.nextInt(charAlpha.length()));
-
-        return new String(codeNumber) + new String(codeAlpha);
     }
 }

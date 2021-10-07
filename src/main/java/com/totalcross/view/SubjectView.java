@@ -11,17 +11,24 @@ import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class SubjectView extends Window {
 
     private Button btnTeacher;
-    public ArrayList<Subject> subjects = new ArrayList<>();
+    private Button btnStudent;
+    public Set<Subject> subjectsSet = new LinkedHashSet<>();
 
-    DescriptionStudents studentMap;
+    StudentView studentView;
 
-    public SubjectView(DescriptionStudents studentMap) {
+    public SubjectView(StudentView studentView, Set<Subject> subjectsSet) {
         super("", BORDER_NONE);
-        this.studentMap = studentMap;
+        this.studentView = studentView;
+        if (subjectsSet != null) {
+            this.subjectsSet.addAll(subjectsSet);
+        }
 
         Settings.uiAdjustmentsBasedOnFontHeight = true;
         setBackForeColors(Color.WHITE, Color.BLACK);
@@ -39,11 +46,12 @@ public class SubjectView extends Window {
     private Subject phySubject = new Subject(SubjectEnum.PHYSICAL);
     private Subject engSubject = new Subject(SubjectEnum.ENGLISH);
 
-    public Radio mathematics = new Radio(matSubject.getName().toString());
-    public Radio chemical = new Radio(cheSubject.getName().toString());
-    public Radio biology = new Radio(bioSubject.getName().toString());
-    public Radio physical = new Radio(phySubject.getName().toString());
-    public Radio english = new Radio(engSubject.getName().toString());
+    public Radio mathematics = new Radio(matSubject.getName().toString() + "                Vacancies: " + matSubject.getVacancies());
+    public Radio chemical = new Radio(cheSubject.getName().toString() + "                   Vacancies: " + cheSubject.getVacancies());
+    public Radio biology = new Radio(bioSubject.getName().toString() + "                    Vacancies: " + bioSubject.getVacancies());
+    public Radio physical = new Radio(phySubject.getName().toString() + "                   Vacancies: " + phySubject.getVacancies());
+    public Radio english = new Radio(engSubject.getName().toString() + "                    Vacancies: " + engSubject.getVacancies());
+
     public Button btnApply = new Button("apply");
 
     public void onPopup() {
@@ -66,37 +74,43 @@ public class SubjectView extends Window {
         sc.add(english, LEFT + 100, AFTER + 100, PREFERRED + 100, PREFERRED + 25);
 
         btnApply.setFont(Font.getFont(Font.DEFAULT, false, 18));
-        add(btnApply, LEFT + 130, BOTTOM - 10);
+        add(btnApply, CENTER, BOTTOM - 10);
 
         btnTeacher = new Button("choose teacher");
         btnTeacher.setFont(Font.getFont(Font.DEFAULT, false, 18));
         add(btnTeacher, RIGHT - 10, BOTTOM - 10);
+
+        btnStudent = new Button("choose student");
+        btnStudent.setFont(Font.getFont(Font.DEFAULT, false, 18));
+        add(btnStudent, LEFT + 10, BOTTOM - 10);
     }
 
     public void onEvent(Event event) {
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnApply) {
-                for (String key : studentMap.getMap().keySet()) {
-                    Student value = studentMap.getMap().get(key);
+                for (String key : studentView.getMap().keySet()) {
+
+                    Student value = studentView.getMap().get(key);
+
                     if (mathematics.isChecked()) {
                         matSubject.enrollStudent(value);
-                        subjects.add(matSubject);
+                        subjectsSet.add(matSubject);
                     }
                     if (chemical.isChecked()) {
                         cheSubject.enrollStudent(value);
-                        subjects.add(cheSubject);
+                        subjectsSet.add(cheSubject);
                     }
                     if (biology.isChecked()) {
                         bioSubject.enrollStudent(value);
-                        subjects.add(bioSubject);
+                        subjectsSet.add(bioSubject);
                     }
                     if (physical.isChecked()) {
                         phySubject.enrollStudent(value);
-                        subjects.add(phySubject);
+                        subjectsSet.add(phySubject);
                     }
                     if (english.isChecked()) {
                         engSubject.enrollStudent(value);
-                        subjects.add(engSubject);
+                        subjectsSet.add(engSubject);
                     }
                 }
             }
@@ -104,13 +118,24 @@ public class SubjectView extends Window {
 
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnTeacher) {
-                TeacherView teacherWindow = new TeacherView(this);
+                TeacherView teacherWindow = new TeacherView(this, studentView);
                 teacherWindow.popup();
+            }
+        }
+
+        if (event.type == ControlEvent.PRESSED) {
+            if (event.target == btnStudent) {
+                StudentView studentView = new StudentView(this, subjectsSet);
+                studentView.popup();
             }
         }
     }
 
+    public Map<String, Student> getMap() {
+        return studentView.getMap();
+    }
+
     public ArrayList<Subject> getSubjects() {
-        return this.subjects;
+        return new ArrayList<>(subjectsSet);
     }
 }

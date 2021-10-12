@@ -2,6 +2,7 @@ package com.totalcross.view;
 
 import com.totalcross.model.Student;
 import com.totalcross.model.Subject;
+import com.totalcross.model.SubjectEnum;
 import totalcross.sys.Settings;
 import totalcross.ui.Bar;
 import totalcross.ui.Button;
@@ -25,11 +26,11 @@ public class StudentView extends Window {
     private Edit studentName;
 
     SubjectView subjectView;
-    Set<Subject> subjectsSet;
+    Set<SubjectEnum> subjectsSet;
 
     HashMap<String, Student> map = new HashMap<>();
 
-    public StudentView(SubjectView subjectView, Set<Subject> subjectsSet) {
+    public StudentView(SubjectView subjectView, Set<SubjectEnum> subjectsSet) {
         super("", BORDER_NONE);
         this.subjectView = subjectView;
         this.subjectsSet = subjectsSet;

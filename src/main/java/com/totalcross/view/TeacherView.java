@@ -1,6 +1,6 @@
 package com.totalcross.view;
 
-import com.totalcross.model.Subject;
+import com.totalcross.model.SubjectEnum;
 import com.totalcross.model.Teacher;
 import totalcross.sys.Settings;
 import totalcross.ui.*;
@@ -17,7 +17,6 @@ public class TeacherView extends Window {
     private final int gap = UnitsConverter.toPixels(10 + DP);
     public String[] labels;
     public Edit[] edits;
-    public Button btnApply = new Button("apply");
     public Button btnManager = new Button("choose manager");
     public AlignedLabelsContainer alc;
 
@@ -62,46 +61,31 @@ public class TeacherView extends Window {
             alc.add(edits[i], LEFT + gap, alc.getLineY(i), FILL - gap, PREFERRED);
         }
 
-        btnApply.setFont(Font.getFont(Font.DEFAULT, false, 18));
-        add(btnApply, LEFT + 10, BOTTOM - 10);
-
         btnManager.setFont(Font.getFont(Font.DEFAULT, false, 18));
         add(btnManager, RIGHT - 10, BOTTOM - 10);
     }
 
     public void onEvent(Event event) {
         if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnApply) {
+            if (event.target == btnManager) {
                 for (int i = 0; i < edits.length; i++) {
                     teacherList.add(new Teacher(edits[i].getText(), subjectView.getSubjects().get(i)));
                 }
 
-                int i = 0;
-                for (Teacher teacher : teacherList) {
-                    Label numberCode = new Label(teacher.toString());
-                    numberCode.setFont(Font.getFont("Lato Regular", false, 18));
-                    numberCode.setForeColor(Color.GREEN);
-                    add(numberCode, LEFT + 385, alc.getLineY(i), FILL - gap, PREFERRED);
-                    i++;
-                }
-            }
-        }
-
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnManager) {
                 ManagerView managerWindow = new ManagerView(this.teacherList, subjectView, studentView);
                 managerWindow.popup();
             }
         }
     }
 
-    public static String[] GetStringArray(ArrayList<Subject> arr) {
+    public static String[] GetStringArray(ArrayList<SubjectEnum> arr) {
         String[] str = new String[arr.size()];
 
         int i = 0;
-        for (Subject obj : arr) {
-            str[i++] = obj.getName().toString();
+        for (SubjectEnum obj : arr) {
+            str[i++] = obj.toString();
         }
+
         return str;
     }
 }

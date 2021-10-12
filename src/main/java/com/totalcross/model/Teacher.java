@@ -7,11 +7,11 @@ public class Teacher {
 
     private String name;
     private String code;
-    private Subject subject;
+    private SubjectEnum subjectEnum;
 
-    public Teacher(String name, Subject subject) {
+    public Teacher(String name, SubjectEnum subjectEnum) {
         this.name = name;
-        this.subject = subject;
+        this.subjectEnum = subjectEnum;
         this.code = generateCode();
     }
 

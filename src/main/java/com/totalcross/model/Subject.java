@@ -6,7 +6,7 @@ import java.util.List;
 public class Subject {
 
     private SubjectEnum name;
-    private Teacher teacher;
+    private List<Grade> grades = new ArrayList<>();
     private List<Student> students = new ArrayList<>();
     private int vacancies;
 
@@ -15,33 +15,26 @@ public class Subject {
         this.vacancies = name.getVacanciesNumber();
     }
 
-    public Subject() {
-    }
-
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
-    }
-
     public SubjectEnum getName() {
         return name;
     }
 
-    public Teacher getTeacher() {
-        return teacher;
+    public int getVacancies() {
+        return this.vacancies;
     }
 
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void enrollStudent(Student student) {
+    public void enrollStudent(Student student, Grade grade) {
         students.add(student);
+        grades.add(grade);
         vacancies--;
     }
 
-    public int getVacancies() {
-        return vacancies;
+    @Override
+    public String toString() {
+        return  "Subject name = " + name +
+                ", vacancies = " + vacancies +
+                ", grades = " + grades +
+                ", students = " + students;
     }
-
 }
 

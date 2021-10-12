@@ -24,13 +24,13 @@ public class ManagerView extends Window {
 
     ManagerControl managerControl;
     ArrayList<Teacher> teacherView;
-    SubjectView subject;
+    SubjectView subjectView;
     StudentView studentView;
 
-    public ManagerView(ArrayList<Teacher> teacherView, SubjectView subject, StudentView studentView) {
+    public ManagerView(ArrayList<Teacher> teacherView, SubjectView subjectView, StudentView studentView) {
         super("", BORDER_NONE);
         this.teacherView = teacherView;
-        this.subject = subject;
+        this.subjectView = subjectView;
         this.studentView = studentView;
 
         Settings.uiAdjustmentsBasedOnFontHeight = true;
@@ -69,23 +69,15 @@ public class ManagerView extends Window {
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnApply) {
                 Manager manager = new Manager(managerName.getText());
-                managerSet.add(manager);
 
                 Label numberCode = new Label(manager.toString());
                 numberCode.setFont(Font.getFont("Lato Regular", false, 24));
                 numberCode.setForeColor(Color.GREEN);
                 add(numberCode, CENTER, CENTER + 200);
 
-                managerControl = new ManagerControl(this, teacherView, subject, studentView);
+                managerControl = new ManagerControl(teacherView, subjectView, manager);
                 managerControl.popup();
             }
         }
-
-//        if (event.type == ControlEvent.PRESSED) {
-//            if (event.target == btnSubject) {
-//                subjectWindow = new Subject();
-//                subjectWindow.popup();
-//            }
-//        }
     }
 }

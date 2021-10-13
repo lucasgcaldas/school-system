@@ -2,6 +2,11 @@ package com.totalcross.model;
 
 import java.util.Random;
 
+/**
+ * Class responsible for instantiate
+ * a Manager
+ * @author Lucas Gomes
+ */
 public class Manager {
 
     private String name;
@@ -12,6 +17,15 @@ public class Manager {
         this.code = generateCode();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * method responsible for generate
+     * a unique registration code.
+     * 4 numbers and 1 letter, ex: 1234A.
+     */
     private String generateCode() {
         Random random = new Random();
         String charNumber = "0123456789";
@@ -28,13 +42,6 @@ public class Manager {
         return new String(codeNumber) + new String(codeAlpha);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getCode() {
-        return code;
-    }
 
     @Override
     public String toString() {

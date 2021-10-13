@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.totalcross"},{"l":"com.totalcross.model"},{"l":"com.totalcross.view"}]

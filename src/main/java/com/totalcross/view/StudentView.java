@@ -1,7 +1,6 @@
 package com.totalcross.view;
 
 import com.totalcross.model.Student;
-import com.totalcross.model.Subject;
 import com.totalcross.model.SubjectEnum;
 import totalcross.sys.Settings;
 import totalcross.ui.Bar;
@@ -18,17 +17,20 @@ import totalcross.util.UnitsConverter;
 import java.util.HashMap;
 import java.util.Set;
 
+/**
+ * Class responsible for create a
+ * Window to set a student name
+ * @author Lucas Gomes
+ */
 public class StudentView extends Window {
 
     private final int GAP = UnitsConverter.toPixels(DP + 15);
     private Button btnSubject;
     private Button btnName;
     private Edit studentName;
-
-    SubjectView subjectView;
-    Set<SubjectEnum> subjectsSet;
-
-    HashMap<String, Student> map = new HashMap<>();
+    private SubjectView subjectView;
+    private Set<SubjectEnum> subjectsSet;
+    private HashMap<String, Student> map = new HashMap<>();
 
     public StudentView(SubjectView subjectView, Set<SubjectEnum> subjectsSet) {
         super("", BORDER_NONE);
@@ -87,6 +89,7 @@ public class StudentView extends Window {
             }
         }
     }
+
 
     public HashMap<String, Student> getMap() {
         return this.map;

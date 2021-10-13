@@ -1,5 +1,10 @@
 package com.totalcross.model;
 
+/**
+ * Enum responsible for instantiate
+ * a set of subjects
+ * @author Lucas Gomes
+ */
 public enum SubjectEnum {
     MATHEMATICS {
         @Override
@@ -32,6 +37,10 @@ public enum SubjectEnum {
         }
     };
 
+    /**
+     * abstract method responsible for call
+     * the number of vacancies in each subject
+     */
     abstract Integer getVacanciesNumber();
 }
 

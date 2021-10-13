@@ -17,6 +17,12 @@ import totalcross.ui.gfx.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class responsible for create a
+ * Window to select which teacher and
+ * student the manager is responsible
+ * @author Lucas Gomes
+ */
 public class ManagerControl extends Window {
 
     private Check[] checkTeachers = new Check[5];
@@ -24,10 +30,9 @@ public class ManagerControl extends Window {
     private Button btnApply = new Button("apply");
     private List<String> teacherList = new ArrayList<>();
     private List<String> studentList = new ArrayList<>();
-
-    ArrayList<Teacher> teacherView;
-    SubjectView subjectView;
-    Manager manager;
+    private ArrayList<Teacher> teacherView;
+    private SubjectView subjectView;
+    private Manager manager;
 
     public ManagerControl(ArrayList<Teacher> teacherView, SubjectView subjectView, Manager manager) {
         super("", BORDER_NONE);

@@ -12,20 +12,21 @@ import totalcross.ui.gfx.Color;
 import totalcross.util.UnitsConverter;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
+/**
+ * Class responsible for create a
+ * Window to set a manager name
+ * @author Lucas Gomes
+ */
 public class ManagerView extends Window {
 
     private final int GAP = UnitsConverter.toPixels(DP + 15);
-    public Button btnApply;
-    public Edit managerName;
-    private Set<Manager> managerSet = new LinkedHashSet<>();
-
-    ManagerControl managerControl;
-    ArrayList<Teacher> teacherView;
-    SubjectView subjectView;
-    StudentView studentView;
+    private Button btnApply;
+    private Edit managerName;
+    private ManagerControl managerControl;
+    private ArrayList<Teacher> teacherView;
+    private SubjectView subjectView;
+    private StudentView studentView;
 
     public ManagerView(ArrayList<Teacher> teacherView, SubjectView subjectView, StudentView studentView) {
         super("", BORDER_NONE);

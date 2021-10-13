@@ -3,6 +3,11 @@ package com.totalcross.model;
 import java.math.BigInteger;
 import java.util.UUID;
 
+/**
+ * Class responsible for instantiate
+ * a Teacher
+ * @author Lucas Gomes
+ */
 public class Teacher {
 
     private String name;
@@ -15,16 +20,13 @@ public class Teacher {
         this.code = generateCode();
     }
 
+    /**
+     * method responsible for generate
+     * a unique registration code.
+     * 9 numbers, ex: 123456789
+     */
     private String generateCode() {
         return String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 9);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getCode() {
-        return code;
     }
 
     @Override

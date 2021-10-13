@@ -3,10 +3,14 @@ package com.totalcross.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class responsible for instantiate
+ * the subject
+ * @author Lucas Gomes
+ */
 public class Subject {
 
     private SubjectEnum name;
-    private List<Grade> grades = new ArrayList<>();
     private List<Student> students = new ArrayList<>();
     private int vacancies;
 
@@ -23,17 +27,20 @@ public class Subject {
         return this.vacancies;
     }
 
-    public void enrollStudent(Student student, Grade grade) {
+    /**
+     * method responsible for enroll the
+     * student, add the student into list
+     * and subtract the number of vacancies
+     */
+    public void enrollStudent(Student student) {
         students.add(student);
-        grades.add(grade);
         vacancies--;
     }
 
     @Override
     public String toString() {
-        return  "Subject name = " + name +
+        return "Subject name = " + name +
                 ", vacancies = " + vacancies +
-                ", grades = " + grades +
                 ", students = " + students;
     }
 }

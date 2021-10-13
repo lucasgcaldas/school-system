@@ -12,18 +12,22 @@ import totalcross.util.UnitsConverter;
 
 import java.util.ArrayList;
 
+/**
+ * Class responsible for create a
+ * Window to write the name of all
+ * teacher of each subject
+ * @author Lucas Gomes
+ */
 public class TeacherView extends Window {
 
     private final int gap = UnitsConverter.toPixels(10 + DP);
-    public String[] labels;
-    public Edit[] edits;
-    public Button btnManager = new Button("choose manager");
-    public AlignedLabelsContainer alc;
-
+    private String[] labels;
+    private Edit[] edits;
+    private Button btnManager = new Button("choose manager");
+    private AlignedLabelsContainer alc;
     private ArrayList<Teacher> teacherList = new ArrayList<>();
-
-    SubjectView subjectView;
-    StudentView studentView;
+    private SubjectView subjectView;
+    private StudentView studentView;
 
     public TeacherView(SubjectView subjectView, StudentView studentView) {
         super("", BORDER_NONE);
@@ -78,6 +82,10 @@ public class TeacherView extends Window {
         }
     }
 
+    /**
+     * method responsible for return an array
+     * of strings by means of an array list
+     */
     public static String[] GetStringArray(ArrayList<SubjectEnum> arr) {
         String[] str = new String[arr.size()];
 

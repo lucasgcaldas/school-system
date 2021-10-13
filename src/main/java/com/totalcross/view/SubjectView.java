@@ -6,24 +6,36 @@ import com.totalcross.model.Subject;
 import com.totalcross.model.SubjectEnum;
 import totalcross.sys.Settings;
 import totalcross.ui.*;
+import totalcross.ui.dialog.MessageBox;
 import totalcross.ui.event.ControlEvent;
 import totalcross.ui.event.Event;
 import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+/**
+ * Class responsible for create a
+ * Window to select which subject the
+ * student want to do and the grade
+ * @author Lucas Gomes
+ */
 public class SubjectView extends Window {
 
-    private Button btnTeacher;
-    private Button btnStudent;
-    public Set<SubjectEnum> subjectsSet = new LinkedHashSet<>();
-    public Edit[] edits = new Edit[5];
+    private Button btnTeacher, btnStudent;
+    private Button btnApply = new Button("apply");
+    private Set<SubjectEnum> subjectsSet = new LinkedHashSet<>();
+    private List<Grade> grades = new ArrayList<>();
+    private Edit[] edits = new Edit[5];
+    private Subject matSubject = new Subject(SubjectEnum.MATHEMATICS);
+    private Subject cheSubject = new Subject(SubjectEnum.CHEMICAL);
+    private Subject bioSubject = new Subject(SubjectEnum.BIOLOGY);
+    private Subject phySubject = new Subject(SubjectEnum.PHYSICAL);
+    private Subject engSubject = new Subject(SubjectEnum.ENGLISH);
+    private StudentView studentView;
+    private Grade matGrade, cheGrade, bioGrade, phyGrade, engGrade;
+    private Radio mathematics, chemical, biology, physical, english;
 
-    StudentView studentView;
 
     public SubjectView(StudentView studentView, Set<SubjectEnum> subjectsSet) {
         super("", BORDER_NONE);
@@ -41,26 +53,6 @@ public class SubjectView extends Window {
         h1.setBackForeColors(0XF8F8F8, Color.BLACK);
         add(h1, LEFT, TOP, FILL, PREFERRED - 50);
     }
-
-    private Subject matSubject = new Subject(SubjectEnum.MATHEMATICS);
-    private Subject cheSubject = new Subject(SubjectEnum.CHEMICAL);
-    private Subject bioSubject = new Subject(SubjectEnum.BIOLOGY);
-    private Subject phySubject = new Subject(SubjectEnum.PHYSICAL);
-    private Subject engSubject = new Subject(SubjectEnum.ENGLISH);
-
-    private Grade matGrade;
-    private Grade cheGrade;
-    private Grade bioGrade;
-    private Grade phyGrade;
-    private Grade engGrade;
-
-    private Radio mathematics;
-    private Radio chemical;
-    private Radio biology;
-    private Radio physical;
-    private Radio english;
-
-    public Button btnApply = new Button("apply");
 
     public void onPopup() {
 
@@ -134,28 +126,38 @@ public class SubjectView extends Window {
 
                     if (mathematics.isChecked()) {
                         matGrade = new Grade(valueStudent, matSubject.getName(), Double.parseDouble(edits[0].getText()));
-                        matSubject.enrollStudent(valueStudent, matGrade);
+                        matSubject.enrollStudent(valueStudent);
+                        valueStudent.enrollSubject(matGrade);
                         subjectsSet.add(matSubject.getName());
+                        grades.add(matGrade);
                     }
                     if (chemical.isChecked()) {
                         cheGrade = new Grade(valueStudent, cheSubject.getName(), Double.parseDouble(edits[1].getText()));
-                        cheSubject.enrollStudent(valueStudent, cheGrade);
+                        cheSubject.enrollStudent(valueStudent);
+                        valueStudent.enrollSubject(cheGrade);
                         subjectsSet.add(cheSubject.getName());
+                        grades.add(cheGrade);
                     }
                     if (biology.isChecked()) {
                         bioGrade = new Grade(valueStudent, bioSubject.getName(), Double.parseDouble(edits[2].getText()));
-                        bioSubject.enrollStudent(valueStudent, bioGrade);
+                        bioSubject.enrollStudent(valueStudent);
+                        valueStudent.enrollSubject(bioGrade);
                         subjectsSet.add(bioSubject.getName());
+                        grades.add(bioGrade);
                     }
                     if (physical.isChecked()) {
                         phyGrade = new Grade(valueStudent, phySubject.getName(), Double.parseDouble(edits[3].getText()));
-                        phySubject.enrollStudent(valueStudent, phyGrade);
+                        phySubject.enrollStudent(valueStudent);
+                        valueStudent.enrollSubject(phyGrade);
                         subjectsSet.add(phySubject.getName());
+                        grades.add(phyGrade);
                     }
                     if (english.isChecked()) {
                         engGrade = new Grade(valueStudent, engSubject.getName(), Double.parseDouble(edits[4].getText()));
-                        engSubject.enrollStudent(valueStudent, engGrade);
+                        engSubject.enrollStudent(valueStudent);
+                        valueStudent.enrollSubject(engGrade);
                         subjectsSet.add(engSubject.getName());
+                        grades.add(engGrade);
                     }
                 }
             }
@@ -163,6 +165,16 @@ public class SubjectView extends Window {
 
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnTeacher) {
+                MessageBox mb;
+                for (String key : studentView.getMap().keySet()) {
+
+                    Student valueStudent = studentView.getMap().get(key);
+
+                    mb = new MessageBox("Summary of the assessments of " + valueStudent.getName() + "!", valueStudent.getSummary(), new String[]{"Nice!"});
+                    mb.setRect(CENTER, CENTER, SCREENSIZE + 50, SCREENSIZE + 30);
+                    mb.popup();
+                }
+
                 TeacherView teacherWindow = new TeacherView(this, studentView);
                 teacherWindow.popup();
             }
@@ -176,10 +188,18 @@ public class SubjectView extends Window {
         }
     }
 
+    /**
+     * method responsible for
+     * return the map of student
+     */
     public Map<String, Student> getMap() {
         return studentView.getMap();
     }
 
+    /**
+     * method responsible for return
+     * the array list of subjects
+     */
     public ArrayList<SubjectEnum> getSubjects() {
         return new ArrayList<>(subjectsSet);
     }
